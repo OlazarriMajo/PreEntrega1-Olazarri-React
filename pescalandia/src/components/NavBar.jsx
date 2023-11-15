@@ -12,7 +12,7 @@ export const NavBar = () => {
       <Nav className="me-auto">
         <Nav.Link href="#home">Catálogo</Nav.Link>
         <Nav.Link href="#features">Accesorios</Nav.Link>
-        <Nav.Link href="#pricing">Contacto</Nav.Link>
+        <Nav.Link href="#pricing">Plantas</Nav.Link>
       </Nav>
       <CartWidget/>
     </Container>
