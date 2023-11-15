@@ -10,19 +10,13 @@ function App() {
   return(
 <BrowserRouter>
 <Routes>
-  <Route path="" element={} />
+  <Route path="/" element={<ItemListContainer />} />
+  <Route path="/category/:id" element={<ItemListContainer />} />
+  <Route path="/item/:id" element={<>🦧</> } />
+  <Route path="*" element={<>ERROR!</> } />
 </Routes>
 </BrowserRouter>
   );
-  
-  
-  
-  
-  
-  /*<>
-  <NavBar />
-  <ItemListContainer greeting="Bem-Vindos!"/>
-  </>;*/
   
 }
 
