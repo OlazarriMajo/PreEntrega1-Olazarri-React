@@ -3,6 +3,7 @@
     "@mui/material": "^5.15.0",
     "@mui/styled-engine-sc": "^6.0.0-alpha.8",
     "react-router-dom": "^6.18.0",
+    "react-spinners": "^0.13.8",
     "styled-components": "^6.1.1"
   }
 }

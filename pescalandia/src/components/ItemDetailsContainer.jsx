@@ -28,7 +28,12 @@ export const ItemDetailsContainer = () => {
     }, [id]);
 
     if(!item) {
-        return <>{Loading}</>
+        return ( <div class="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+            )
     };
 
     
