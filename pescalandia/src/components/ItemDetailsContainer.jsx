@@ -3,11 +3,14 @@ import { useParams } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container'; 
 import { productos } from "../data/productos";
+import { CartContext } from '../contexts/CartContext';
 
 export const ItemDetailsContainer = () => {
     const [item, setItem] = useState(null);
 
     const {id} = useParams();
+
+    const {addItem} = useContext(CartContext);
 
     useEffect(() => {
         const promise = new Promise((resolve, reject) => {
@@ -24,5 +27,12 @@ export const ItemDetailsContainer = () => {
         return <>Loading</>
     };
 
-    return(<div><h1>{item.title}</h1><img src={item.picture} width={300}/><p>{item.description}</p><mark>{item.price} AR$ </mark></div>);
+    return(
+    <div>
+        <h1>{item.title}</h1>
+        <img src={item.picture} width={300}/>
+        <p>{item.description}</p>
+        <mark>{item.price} AR$ </mark>
+        <button onClick={() => addItem()}>Agregar al carrito</button>
+        </div>);
 };
