@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 
 import { ItemList } from './ItemList';
-import { productos } from '../data/productos';
+
+import { getFirestore, getDoc, getDocs, collection, doc} from "firebase/firestore";
+import { Loading } from './Loader';
 
 
 export const ItemListContainer = () => {
@@ -11,31 +13,30 @@ const [items, setItems] = useState([]);
 const [loading, setLoading] = useState(true);
 
 const {id} = useParams();
+};
 
 
+useEffect (() => {
+    const db = getFirestore();
 
-useEffect(() => {
-    const promise = new Promise((resolve, reject) => {
-        setTimeout(() => {resolve(productos);}, 2000);
-    });
+    const refCollection = collection(db,"productos", id);
 
-    promise.then((response) => {
-        if (id) {
-            const filtered = response.filter(item => item.category === id);
-            setItems(filtered);
-        } else {
-            setItems(response);
-        };
-        
+    getDocs(refCollection).then((snapshot) => {
+    
+            setItems(return { id: doc.id, ...doc.data()});
 
-    })
-    .finally(() => setLoading(false));
-}, [id]);
+        })
+        .finally(() => setLoading(false));
+    }, [id]);
 
-    return (
+if(Loading) {
+    return <>Loading</>
+}
+
+   return (
         <Container className='mt-4'>
         <h1>CATALOGO</h1>
         <ItemList items={items} />
         </Container>
-    );
+    ); /*
 };

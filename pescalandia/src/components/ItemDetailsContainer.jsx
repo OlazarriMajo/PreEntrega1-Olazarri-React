@@ -4,49 +4,49 @@ import { useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container'; 
 import Button from 'react-bootstrap/Button';
 
-import { productos } from "../data/productos";
+
 import { CartContext } from '../contexts/CartContext';
 import { Loading } from "../components/Loader";
+import { getFirestore, getDoc, doc} from "firebase/firestore";
+import { ItemCounter } from './ItemCounter';
 
 
 export const ItemDetailsContainer = () => {
     const [item, setItem] = useState(null);
-
+    const [loading, setLoading] = useState(true);
     const {id} = useParams();
 
     const {addItem} = useContext(CartContext);
 
     useEffect(() => {
-        const promise = new Promise((resolve, reject) => {
-            setTimeout(() => {resolve(productos);}, 2000);
-        });
-    
-        promise.then((response) => {
-                const filtered = response.find(item => item.id == id);
-                setItem(filtered);
-        })
-    }, [id]);
+       [id]);
 
     if(!item) {
-        return ( <div class="loader">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+        return (  <div class="loader"> 
+        <div class="dot">{Loading}</div>
+        
       </div>
-            )
+      )
     };
 
-    
+    useEffect (()=>{
+        const db = getFirestore();
+        const refDoc = doc(db, "productos", id);
+        getDoc(refDoc).then((snapshot)=>{
+          setItem( { id: snapshot.id,...snapshot.data() });
+          setLoading(false)
+        });
+      },[id]); 
 
     
     return(
         
-    <div>
+    <Container className='mt-4'>
         <h1>{item.title}</h1>
         <img src={item.picture} width={300}/>
         <p>{item.description}</p>
         <mark>{item.price} AR$ </mark>
         <br />
-        <button onClick={() => addItem()} variant="outline-info">Agregar al carrito</button>
-        </div>);
+        <ItemCounter initial={1} stock={item.stock}/>
+        </Container >);
 };

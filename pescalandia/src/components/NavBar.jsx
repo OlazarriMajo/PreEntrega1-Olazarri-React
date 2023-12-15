@@ -6,7 +6,6 @@ import Navbar from 'react-bootstrap/Navbar';
 
 import { CartWidget } from "./CartWidget";
 
-import { productos } from '../data/productos';
 
 const categorias = productos.map((item) => item.category);
 const uniqueCategories = new Set(categorias);
