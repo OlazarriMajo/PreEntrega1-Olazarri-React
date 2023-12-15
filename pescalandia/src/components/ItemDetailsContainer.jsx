@@ -16,10 +16,22 @@ export const ItemDetailsContainer = () => {
     const [loading, setLoading] = useState(true);
     const {id} = useParams();
 
-    const {addItem} = useContext(CartContext);
+    const { onAdd } = useContext(CartContext);
 
     useEffect(() => {
-       [id]);
+        const db = getFirestore();
+
+        const refDoc = doc(db, "productos", id);
+
+        getDoc(refDoc).then((snapshot) =>{
+            setItem({ id: snapshot.id, ...snapshot.data() })
+        })
+        .finally(() => setLoading(false))
+    }, [id]);
+
+    const add = (quantity) => {
+        onAdd(item, quantity)
+    }
 
     if(!item) {
         return (  <div class="loader"> 
@@ -44,9 +56,10 @@ export const ItemDetailsContainer = () => {
     <Container className='mt-4'>
         <h1>{item.title}</h1>
         <img src={item.picture} width={300}/>
-        <p>{item.description}</p>
-        <mark>{item.price} AR$ </mark>
+        <p>características: {item.description}</p>
+        <p>Stock: {item.stock}</p>
+        <mark>precio: {item.price} AR$ </mark>
         <br />
-        <ItemCounter initial={1} stock={item.stock}/>
+        <ItemCounter initial={1} stock={item.stock} onAdd={add}/>
         </Container >);
 };
