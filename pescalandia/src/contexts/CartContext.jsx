@@ -1,38 +1,57 @@
-import { createContext, useState } from "react";
-import { Item } from "../components/Item";
+import { createContext, useEffect, useState } from "react";
+
 
 export const CartContext = createContext();
 
-export const CartProvider = ({ children }) => {
-    const [items,setItems] = useState([]);
+const carritoInicial = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    const clear = (id) => {
-        const newItem = items.filter((prev) => prev.id !==id)
-        setItems(newItem)
-    };
+export const CartProvider = ({children}) => {
 
-    const onAdd = (item, quantity) => {
-        const exist = items.some(i => i.id === item.id)
+    const [carrito, setCarrito] = useState(carritoInicial);
 
-        if (exist) {
-            const updateItem = items.map(i => {
-                if (i.id === item.id) {
-                    return {
-                        ...i,
-                        quantity: i.quantity + quantity,
-                    }
-                } else {
-                    return i
-                }
-                
-            })
-            setItems(updateItem)
+    const agregarAlCarrito = (item, cantidad) => {
+        const itemAgregado = { ...item, cantidad };
+
+        const nuevoCarrito = [...carrito];
+        const estaEnElCarrito = nuevoCarrito.find((producto) => producto.id === itemAgregado.id);
+
+        if (estaEnElCarrito) {
+            estaEnElCarrito.cantidad += cantidad;
         } else {
-            setItems((prev) => {
-                return [...prev, { ...item, quantity }];
-            })
+            nuevoCarrito.push(itemAgregado);
         }
-   };
+        setCarrito(nuevoCarrito);
+    }
+
+    const cantidadEnCarrito = () => {
+        return carrito.reduce((acc, prod) => acc + prod.cantidad, 0);
+    }
+
+    const precioTotal = () => {
+        return carrito.reduce((acc, prod) => acc + prod.precio * prod.cantidad, 0);
+    }
+
+    const vaciarCarrito = () => {
+        setCarrito([]);
+    }
+
+    useEffect(() => {
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+    }, [carrito])
     
-    return <CartContext.Provider value={{ onAdd, clear, items }}>{ children }</CartContext.Provider>;
-};
+
+    return (
+        <CartContext.Provider value={ {
+            carrito,
+            agregarAlCarrito,
+            cantidadEnCarrito,
+            precioTotal,
+            vaciarCarrito
+        } }>
+            {children}
+        </CartContext.Provider>
+    )
+
+
+
+}

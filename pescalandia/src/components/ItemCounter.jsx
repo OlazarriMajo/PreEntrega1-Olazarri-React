@@ -1,32 +1,18 @@
-import { useState } from "react"
+import React from 'react'
 
-export const ItemCounter = ({ initial, stock, onAdd}) =>{
-const [count, setCount] = useState(initial)
+const ItemCount = ( {cantidad, handleRestar, handleSumar, handleAgregar} ) => {
 
-const handleDecreaseCount = () => {
-    if (count > initial) setCount((c) => c - 1)
-}
+  return (
+    <div>
 
-const handleIncreaseCount = () => {
-    if (stock > count) setCount((c) => c + 1)
-}
-
-const handleAdd = () => {
-    onAdd(count)
-    setCount(initial)
-}
-    return (
-        <>
-        <br/>
-        <br/>
-        <div style={{display: "flex"}}>
-            <div style={{fontSize: 32}}  onClick={handleDecreaseCount}> - </div>
-            <mark>{count}</mark>
-            <div></div>
-            <div style={{fontSize: 32}}  onClick={handleIncreaseCount}> + </div>
+        <div className="item-count">
+            <button onClick={handleRestar}>-</button>
+            <p>{cantidad}</p>
+            <button onClick={handleSumar}>+</button>
         </div>
-        <br/>
-        <button onClick={handleAdd}>Agregar al carrito</button>
-        </>
-    )
+        <button className="agregar-al-carrito" onClick={handleAgregar}>Agregar al carrito</button>
+    </div>
+  )
 }
+
+export default ItemCount;

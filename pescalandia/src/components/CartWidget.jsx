@@ -1,17 +1,19 @@
-import cart from '../assets/—Pngtree—shopping cart_5394047.png';
-import { CartContext } from '../contexts/CartContext';
-import { useContext } from 'react';
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { CartContext } from '../Context/CartContext';
 
-export const CartWidget = () => {
-    const{ items } = useContext(CartContext)
+const CartWidget = () => {
 
-    const total = items.reduce((acumulado, actual) => {
-        return acumulado + actual.quantity
-    }, 0)
-    return (
-    <>
-    <img src = {cart} alt="carrito de compras" width="50" />
-    <span>{total}</span>
-    </> 
-    );
-};
+    const { cantidadEnCarrito } = useContext(CartContext);
+
+  return (
+    <div>
+        <Link className="menu-link" to="/carrito">
+            <img className='cart' src="../assets/—Pngtree—shopping cart_5394047.png" alt="carrito" />
+            <span className="numerito">  {cantidadEnCarrito()}</span>
+        </Link>
+    </div>
+  )
+}
+
+export default CartWidget

@@ -1,29 +1,23 @@
-import { NavLink } from 'react-router-dom';
-
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-
-import { CartWidget } from "./CartWidget";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import CartWidget from './CartWidget'
 
 
-const categorias = productos.map((item) => item.category);
-const uniqueCategories = new Set(categorias);
 
-export const NavBar = () => {
-    return ( 
-    <Navbar bg="dark" data-bs-theme="dark">
-    <Container>
-      <NavLink to="/">
-        <Navbar.Brand>Pescalandia</Navbar.Brand>
-        </NavLink>
-      <Nav className="me-auto">
-        {[...uniqueCategories].map(item => <Nav.Link as={NavLink} key={item} to={`/category/${item}`}>{item}</Nav.Link>)}
-      </Nav>
-      <CartWidget/>
-    </Container>
-  </Navbar>
-    
-           
-    );
-};
+const Navbar = () => {
+  return (
+    <nav className="navbar">
+        <Link to="/" ><img className="logo" src="../assets/Pescalandia.png" alt="Logo" /></Link>
+        <ul className="menu">
+            <li><Link className="menu-link" to="/">Inicio</Link></li>
+            <li><Link className="menu-link" to="/productos/Peces">Peces</Link></li>
+            <li><Link className="menu-link" to="/productos/Plantas">Plantas</Link></li>
+            <li><Link className="menu-link" to="/productos/Accesorios">Accesorios</Link></li>
+            <li><Link className="menu-link" to="/contacto">Contacto</Link></li>
+            <li><CartWidget /></li>
+        </ul>
+    </nav>
+  )
+}
+
+export default Navbar

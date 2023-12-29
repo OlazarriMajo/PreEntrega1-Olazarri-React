@@ -1,42 +1,40 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
+import { useEffect, useState } from "react";
+import ItemList from "./ItemList";
+import { useParams } from "react-router-dom";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase/config";
 
-import { ItemList } from './ItemList';
+const ItemListContainer = () => {
 
-import { getFirestore, getDoc, getDocs, collection, doc} from "firebase/firestore";
-import { Loading } from './Loader';
+    const [productos, setProductos] = useState([]);
 
+    const [titulo, setTitulo] = useState("Productos");
 
-export const ItemListContainer = () => {
-const [items, setItems] = useState([]);
-const [loading, setLoading] = useState(true);
+    const categoria = useParams().categoria;
 
-const {id} = useParams();
-};
+    useEffect(() => {
 
+      const productosRef = collection(db, "productos");
+      const q = categoria ? query(productosRef, where("categoria", "==", categoria)) : productosRef;
 
-useEffect (() => {
-    const db = getFirestore();
+      getDocs(q)
+        .then((resp) => {
 
-    const refCollection = collection(db,"productos", id);
-
-    getDocs(refCollection).then((snapshot) => {
-    
-            setItems(return { id: doc.id, ...doc.data()});
-
+          setProductos(
+            resp.docs.map((doc) => {
+              return { ...doc.data(), id: doc.id }
+            })
+          )
         })
-        .finally(() => setLoading(false));
-    }, [id]);
-
-if(Loading) {
-    return <>Loading</>
+        
+    }, [categoria])
+    
+    
+  return (
+    <div>
+        <ItemList productos={productos} titulo={titulo} />
+    </div>
+  )
 }
 
-   return (
-        <Container className='mt-4'>
-        <h1>CATALOGO</h1>
-        <ItemList items={items} />
-        </Container>
-    ); /*
-};
+export default ItemListContainer
