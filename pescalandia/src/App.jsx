@@ -2,12 +2,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { NavBar } from "./components/NavBar";
 import { ItemListContainer } from "./components/ItemListContainer";
 import { ItemDetailsContainer } from "./components/ItemDetailsContainer";
-import Contacto from "./components/Contacto";
+import { Contacto } from "./components/Contacto";
 
 import "./App.css";
 import { CartProvider } from "./contexts/CartContext";
-import Carrito from "./components/Carrito";
-import Checkout from "./components/Chechkout";
+import { Carrito } from "./components/Carrito";
+import { Checkout } from "./components/Checkout";
 
 
 function App() {

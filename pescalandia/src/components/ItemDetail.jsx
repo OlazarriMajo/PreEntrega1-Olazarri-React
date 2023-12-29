@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import { toCapital } from "../helpers/toCapital"
-import ItemCount from "./ItemCount"
-import { CartContext } from "../Context/CartContext";
+import { toCapital } from "../helpers/toCapital";
+import { ItemCount } from "./ItemCounter";
+import { CartContext } from "../contexts/CartContext";
 
 
 const ItemDetail = ( {item} ) => {
@@ -40,4 +40,4 @@ const ItemDetail = ( {item} ) => {
   )
 }
 
-export default ItemDetail
+export default ItemDetail;
